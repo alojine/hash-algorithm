@@ -1,2 +1,2 @@
-# Blockchain
+# blockchain
 repository for blockchain projects
