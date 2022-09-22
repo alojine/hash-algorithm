@@ -1,5 +1,5 @@
 #include "hash.h"
-
+#include <iomanip>
 #include <sstream>
 #include <string>
 #include <random>
@@ -19,8 +19,27 @@ void Hash::setHash(string s){
 
 const string &Hash::getHash() const { return str_; }
 
-void Hash::fileHash() {
+const string &Hash::makeHash(string s){
+
+    bool upper_case = true;
+    ostringstream ret;
+    string first;
+
+    for (string::size_type i = 0; i < s.length(); ++i)
+        ret << std::hex << std::setfill('0') << std::setw(2) << (upper_case ? std::uppercase : std::nouppercase) << (int)s[i];
+
+    str_ = ret.str(); 
+    first = ret.str();
+
+
+
+
+
+
+
 
     
-
- }
+    // grazinamas
+    // return ret.str();
+    
+};

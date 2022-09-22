@@ -7,4 +7,4 @@ main.o: main.cpp
 hash.o: hash.cpp
 	g++ -c hash.cpp
 
-clean: del *.0 run.exe
+clean: del *.o run.exe

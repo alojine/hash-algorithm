@@ -17,9 +17,8 @@ class Hash{
         void setHash(std::string);  // setter
         const string& getHash() const;  // getter
 
-        // two mehtods for hashing
-        void fileHash();
-        void lineHash();
+
+        const string& makeHash(std::string);
 
 
 };
