@@ -5,18 +5,15 @@
 
 using namespace std;
 
+int main()
+{
 
-int main () {
-
+    string s = "helloworle";
 
     Hash hash;
 
-    string s = "Helloworld!";
-
     hash.makeHash(s);
-
     cout << hash.getHash() << endl;
-
 
 
     return 0;

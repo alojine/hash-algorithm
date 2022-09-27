@@ -7,19 +7,21 @@ using namespace std;
 
 class Hash{
     private:
-        std::string str_;
-        char ch_;
+        string str_;
+
+        int rightRotate(int n, int d);
+        int leftRotate(int n, int d);
+
+        string leftRotate(string str1, int n);
+        string rightRotate(string str1, int n);
     
     public:
         Hash();     //default c
         ~Hash();    //destructor
 
-        void setHash(std::string);  // setter
+        void setHash(std::string);  // setter   
         const string& getHash() const;  // getter
-
-
         const string& makeHash(std::string);
-
 
 };
 
