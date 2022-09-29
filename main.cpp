@@ -8,7 +8,7 @@ using namespace std;
 int main()
 {
 
-    string s = "helloworle";
+    string s = "helloworld";
 
     Hash hash;
 

@@ -14,6 +14,11 @@ class Hash{
 
         string leftRotate(string str1, int n);
         string rightRotate(string str1, int n);
+
+        int rotr(std::uint32_t v, std::int32_t shift);
+        int rotl(std::uint32_t v, std::int32_t shift);
+
+        string binToHex(string s);
     
     public:
         Hash();     //default c
