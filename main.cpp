@@ -1,29 +1,17 @@
 #include <iostream>
-#include <string>
-#include <fstream>
-#include "hash.cpp"
-#include "time.cpp"
+#include "App/app.cpp"
 
 using namespace std;
 
 
 
-int main(){
+int main(int argc, char **argv){
 
-    string s = "";
+    // int argc, char **argv
 
-    cout << "Iveskite zodi: " << endl;
-    cin >> s;
+    App app;
+    app.run();
 
-    Hash hash;
-    Time t;
-
-    t.start();
-    hash.makeHash(s);
-    double d = t.stop();
-
-    cout << hash.getHash() << endl;
-    cout << t.stop() << endl;
 
 
     return 0;
