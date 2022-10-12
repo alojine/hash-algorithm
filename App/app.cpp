@@ -16,10 +16,10 @@ void App::run()
     if (_argc > 1)
     {
 
-        if (_argv[0][1] == 'r')
+        if (_argv[1][0] == 'r')
         {
 
-            string s = Random(524);
+            string s = Random(100);
             cout << s << endl;
 
             Hash hash;

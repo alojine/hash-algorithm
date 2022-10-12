@@ -103,6 +103,8 @@ const string &Hash::makeHash(string s)
     unsigned seed = uniqueValue;
     srand(seed);
 
+    // fix s_length for unique value
+
     int strLength = cnv.length();
     int len = strLength - 1;
 
