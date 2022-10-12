@@ -9,6 +9,7 @@
 #include <cstdlib>
 #include <ctime>
 #include <fstream>
+#include <stdio.h>
 
 #define BIT_LENGTH 512
 #define HEX_LENGTH 64

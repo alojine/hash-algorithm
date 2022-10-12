@@ -4,14 +4,15 @@
 
 class App{
     private: //
-        Time t;
-        Hash h;
         int _argc;
-        char **_argv;
+        char **argv;
+        string argument;
 
         // methods for testing
         string Random(int l);
-        void Generator(int l, int );
+        void Generator(int l, int x, int y);
+        void Read(string fName, vector<string>& strings);
+        void Write(vector<string> s);
 
     public: // 
         void Args(int argc, char **argv);
