@@ -4,15 +4,19 @@
 
 class App{
     private: //
-        int runner = 0;
         Time t;
         Hash h;
+        int _argc;
+        char **_argv;
 
+        // methods for testing
+        string Random(int l);
+        void Generator(int l, int );
 
     public: // 
-        App();
-        ~App();
-
+        void Args(int argc, char **argv);
         void run();
+        ~App();
+        
 
 };

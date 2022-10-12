@@ -8,6 +8,7 @@
 #include <vector>
 #include <cstdlib>
 #include <ctime>
+#include <fstream>
 
 #define BIT_LENGTH 512
 #define HEX_LENGTH 64
@@ -97,11 +98,11 @@ const string &Hash::makeHash(string s)
     for(size_t i = 0; i < s.length(); i++){
         uniqueValue += (int)s[i];
     }
-    
+
     unsigned seed = uniqueValue;
     srand(seed);
 
-    int strLength = cnv.length();  
+    int strLength = cnv.length();
     int len = strLength - 1;
 
     for(int i = 0; i < len; ++i) {
