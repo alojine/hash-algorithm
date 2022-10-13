@@ -33,3 +33,20 @@ function Hash{
   return s;
 }
 ```
+
+## Testu rezultatai
+
+### Avalanche
+
+|     Input     | Output(hash)                                                    |
+|-------------- | ----------------------------------------------------------------|
+| lietuva       | 451101b2005d18080b122400c11000cb240a0c380e113406248002220122500 |
+| lietuve       | 81200053648100580342902c080022204221211c85891020b00100e0a252249 |
+| lietuva!      | 02000199c0201180640010430c84004320518000884022194ca040604800951 |
+
+- Hash algoritmas visada yra *64 simboliu hex* ilgio kodas
+- Hash algoritmas visada yra *deterministinis*
+
+### Hash algoritmo greitis
+
+###

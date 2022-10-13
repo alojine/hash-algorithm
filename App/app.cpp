@@ -11,17 +11,24 @@ App::~App() {}
 
 void App::run()
 {
-    // string argument = _argv[1];
 
     if (_argc > 1)
     {
 
-        if (_argv[1][0] == 'r')
+        if(argument == "--gf"){
+            // ilgis eilutes zodziai
+            cout << "i kuri faila sugeneruoti: " << endl;
+            string fName;
+            cin >> fName;
+            Generator(10, 2, 1, fName);
+        }
+
+        if (argument == "--sw") // single word
         {
 
-            string s = Random(100);
-            cout << s << endl;
-
+            string s = "";
+            cout << "Iveskite zodi" << endl;
+            cin >> s;
             Hash hash;
             Time t;
 
@@ -33,16 +40,19 @@ void App::run()
             cout << t.stop() << " s" << endl;
         }
 
-        if(argument == "test"){
+        if(argument == "--ts"){
 
-            string fName;
+            string fName, fName2;
             vector<string> strings;
             vector<string> h;
             
-            cout << "Iveskite failo pavadinima:" << endl;
+            cout << "skaityti faila:" << endl;
             cin >> fName;
 
-            Generator(10, 10, 10);
+            cout << "rasyti faila:" << endl;
+            cin >> fName2;
+
+            Generator(10, 10, 10, fName2);
             Read(fName, strings);
 
             for(auto word : strings){
@@ -54,29 +64,68 @@ void App::run()
             Write(h);
         }
 
+        if(argument == "--kt"){     // konstitucija
+            string fName = "konstitucija.txt";
+            vector<string> strings;
+            vector<string> h;
+
+            Read(fName, strings);
+
+            double d = 0;
+
+            for(auto word : strings){
+                Hash hash;
+                Time t;
+
+                t.start();
+                hash.makeHash(word);
+                d += t.stop();
+
+                h.push_back(hash.getHash());
+            }
+            
+            cout << d << endl;
+
+        }
+
     }
 }
 
 string App::Random(int l){
 
-    string c = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789abcdefghijklmnopqrstuvwxyz";
-    std::random_device random_device;
-    std::mt19937 gen(random_device());
-    std::uniform_int_distribution<> distribution(0, c.size() - 1);
+    // string c = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789abcdefghijklmnopqrstuvwxyz";
+    // std::random_device random_device;
+    // std::mt19937 gen(random_device());
+    // std::uniform_int_distribution<int> distribution(0, c.size() - 1);
 
-    string s;
+    // string s;
 
-    for(std::size_t i = 0; i < l; i++){
-        s += c[distribution(gen)];
+    // for(std::size_t i = 0; i < l; i++){
+    //     s += c[distribution(gen)];
+    // }
+
+    // return s;
+    srand((unsigned)time(NULL));
+    // srand((unsigned)time(NULL) * getpid());
+    static const char alphanum[] =
+        "0123456789"
+        "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+        "abcdefghijklmnopqrstuvwxyz";
+    std::string tmp_s;
+    tmp_s.reserve(l);
+
+    for (int i = 0; i < l; ++i) {
+        tmp_s += alphanum[rand() % (sizeof(alphanum) - 1)];
     }
+    
+    return tmp_s;
 
-    return s;
 }
 
-void App::Generator(int l, int x1, int x2){
+void App::Generator(int l, int x1, int x2, string fName){
 
     string line;
-    ofstream fout("text.txt");
+    ofstream fout(fName);
     stringstream buffer;
 
     for(int i = 0; i < x1; i++){
@@ -89,7 +138,6 @@ void App::Generator(int l, int x1, int x2){
     fout << buffer.str() << endl;
     fout.close();
 
-    cout << "Generator" << endl;
 }
 
 void App::Read(string fName, vector<string>& strings){
@@ -108,12 +156,15 @@ void App::Read(string fName, vector<string>& strings){
         }
     }
 
-    cout << "Reader" << endl;
+    // for(int i = 0; i < 512; i++){
+    //     getline(buffer, line);
+    //     strings.push_back(line);
+    // }
+
 } 
 
 void App::Write(vector<string> s){
 
-    cout << "Writer pradzia" << endl;
 
     ofstream fout("output.txt");
     stringstream buffer;
@@ -125,7 +176,6 @@ void App::Write(vector<string> s){
     fout << buffer.str();
     fout.close();
 
-    cout << "Writer pabaiga" << endl;
 }
 
 

@@ -10,7 +10,7 @@ class App{
 
         // methods for testing
         string Random(int l);
-        void Generator(int l, int x, int y);
+        void Generator(int l, int x1, int x2, string fName);
         void Read(string fName, vector<string>& strings);
         void Write(vector<string> s);
 
