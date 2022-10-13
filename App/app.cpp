@@ -93,33 +93,20 @@ void App::run()
 
 string App::Random(int l){
 
-    // string c = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789abcdefghijklmnopqrstuvwxyz";
-    // std::random_device random_device;
-    // std::mt19937 gen(random_device());
-    // std::uniform_int_distribution<int> distribution(0, c.size() - 1);
+    string c = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789abcdefghijklmnopqrstuvwxyz";
+    unsigned seed1 = std::chrono::system_clock::now().time_since_epoch().count();
+    std::mt19937 gen(seed1);
+    std::uniform_int_distribution<int> dist(0, c.size() - 1);
+    srand(seed1);
 
-    // string s;
+    string s;
 
-    // for(std::size_t i = 0; i < l; i++){
-    //     s += c[distribution(gen)];
-    // }
-
-    // return s;
-    srand((unsigned)time(NULL));
-    // srand((unsigned)time(NULL) * getpid());
-    static const char alphanum[] =
-        "0123456789"
-        "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
-        "abcdefghijklmnopqrstuvwxyz";
-    std::string tmp_s;
-    tmp_s.reserve(l);
-
-    for (int i = 0; i < l; ++i) {
-        tmp_s += alphanum[rand() % (sizeof(alphanum) - 1)];
+    for(std::size_t i = 0; i < l; i++){
+        // s += c[dist(gen)];
+        s += c[rand() % c.size()];
     }
-    
-    return tmp_s;
 
+    return s;
 }
 
 void App::Generator(int l, int x1, int x2, string fName){
