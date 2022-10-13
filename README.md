@@ -49,4 +49,6 @@ function Hash{
 
 ### Hash algoritmo greitis
 
+![alt text](https://github.com/alojine/blockchain/blob/master/Hash%20speed.png)
+
 ###
