@@ -15,53 +15,40 @@ void App::run()
     if (_argc > 1)
     {
 
-        if(argument == "--gf"){
-            // ilgis eilutes zodziai
-            cout << "i kuri faila sugeneruoti: " << endl;
+        if(argument == "--gf"){     // generate file
+            
             string fName;
-            cin >> fName;
-            Generator(10, 2, 1, fName);
+            cout << "Iveskite faila i kuri sugeneruoti: "; cin >> fName;
+            fName = fName + ".txt";
+            Generator(30, 4, 1, fName);
         }
 
-        if (argument == "--sw") // single word
-        {
+        if(argument == "--hf"){     // hash file
 
-            string s = "";
-            cout << "Iveskite zodi" << endl;
-            cin >> s;
-            Hash hash;
-            Time t;
-
-            t.start();
-            hash.makeHash(s);
-            double d = t.stop();
-    
-            cout << hash.getHash() << endl;
-            cout << t.stop() << " s" << endl;
-        }
-
-        if(argument == "--ts"){
-
-            string fName, fName2;
             vector<string> strings;
             vector<string> h;
-            
-            cout << "skaityti faila:" << endl;
+            string fName;   double d = 0;
+
+            cout << "Iveskite faila kuri suhashuoti: ";
             cin >> fName;
+            fName = fName + ".txt";
 
-            cout << "rasyti faila:" << endl;
-            cin >> fName2;
-
-            Generator(10, 10, 10, fName2);
             Read(fName, strings);
-
             for(auto word : strings){
                 Hash hash;
+                Time t;
+
+                t.start();
                 hash.makeHash(word);
+                cout << hash.getHash() << endl;
+                d += t.stop();
+
                 h.push_back(hash.getHash());
             }
-            
+
+            cout << "Hash laikas: " << d << " s" << endl;
             Write(h);
+
         }
 
         if(argument == "--kt"){     // konstitucija
@@ -93,18 +80,10 @@ void App::run()
 
 string App::Random(int l){
 
-    string c = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789abcdefghijklmnopqrstuvwxyz";
-    unsigned seed1 = std::chrono::system_clock::now().time_since_epoch().count();
-    std::mt19937 gen(seed1);
-    std::uniform_int_distribution<int> dist(0, c.size() - 1);
-    srand(seed1);
-
-    string s;
-
-    for(std::size_t i = 0; i < l; i++){
-        // s += c[dist(gen)];
-        s += c[rand() % c.size()];
-    }
+    std::string s;
+    s.reserve(l);
+    while(l--)
+        s += chrs[pick(rg)];
 
     return s;
 }
@@ -150,13 +129,12 @@ void App::Read(string fName, vector<string>& strings){
 
 } 
 
-void App::Write(vector<string> s){
-
+void App::Write(vector<string> h){
 
     ofstream fout("output.txt");
     stringstream buffer;
 
-    for(auto words : s){
+    for(auto words : h){
         buffer << words << endl;
     }
 
