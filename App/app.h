@@ -1,6 +1,7 @@
 #include <iostream>
 #include <cstdlib>
 #include <algorithm>
+#include <unordered_map>
 #include "../Hash/hash.cpp"
 #include "../Time/time.cpp"
 
@@ -22,6 +23,7 @@ class App{
         void Generator(int l, int x1, int x2, string fName);
         void Read(string fName, vector<string>& strings);
         void Write(vector<string> s);
+        void Collision(vector<string>& h);
 
     public: // 
         void Args(int argc, char **argv);

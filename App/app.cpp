@@ -20,7 +20,9 @@ void App::run()
             string fName;
             cout << "Iveskite faila i kuri sugeneruoti: "; cin >> fName;
             fName = fName + ".txt";
-            Generator(30, 4, 1, fName);
+            int eilutes, poros, ilgis;
+            cout << "Iveskite ilgi eilutes ir poras:"; cin >> ilgis; cin >> eilutes; cin >> poros;
+            Generator(ilgis, eilutes, poros, fName);
         }
 
         if(argument == "--hf"){     // hash file
@@ -40,15 +42,15 @@ void App::run()
 
                 t.start();
                 hash.makeHash(word);
-                cout << hash.getHash() << endl;
                 d += t.stop();
 
                 h.push_back(hash.getHash());
             }
 
             cout << "Hash laikas: " << d << " s" << endl;
+            Collision(h);
             Write(h);
-
+            
         }
 
         if(argument == "--kt"){     // konstitucija
@@ -140,6 +142,24 @@ void App::Write(vector<string> h){
 
     fout << buffer.str();
     fout.close();
+
+}
+
+void App::Collision(vector<string> &h){
+
+    int match = 0;
+    std::unordered_map<string, int> map;
+    for(auto s: h){
+        if(!map.count(s)){
+            map[s] = 1;
+        }
+        else {
+            map[s]++;
+            match++;
+        }
+
+    }
+    cout << "Colission has happened: " << match << " / " << h.size() << endl;
 
 }
 
