@@ -25,6 +25,16 @@ void App::run()
             Generator(ilgis, eilutes, poros, fName);
         }
 
+        if(argument == "--gp"){     // generate file
+            
+            string fName;
+            cout << "Iveskite faila i kuri sugeneruoti: "; cin >> fName;
+            fName = fName + ".txt";
+            int eilutes, poros, ilgis;
+            cout << "Iveskite ilgi eilutes ir poras:"; cin >> ilgis; cin >> eilutes; cin >> poros;
+            GeneratorPair(ilgis, eilutes, poros, fName);
+        }
+
         if(argument == "--hf"){     // hash file
 
             vector<string> strings;
@@ -51,6 +61,63 @@ void App::run()
             Collision(h);
             Write(h);
             
+        }
+
+        if (argument == "--ta"){
+            vector<string> strings;
+            vector<string> h;
+            string fName;   double d = 0;
+
+            cout << "Iveskite faila kuri suhashuoti: ";
+            cin >> fName;
+            fName = fName + ".txt";
+            
+            Read(fName, strings);
+
+            vector<double> percentages;
+
+            for(int i = 0; i < strings.size(); i++){
+                
+                int count = 0;
+
+                if(i != 0){
+                    // previous
+                    Hash hash1;
+                    hash1.makeHash(strings.at(i - 1));
+                    string prev = hash1.getHash();
+
+                    // current
+                    Hash hash2;
+                    hash2.makeHash(strings.at(i));
+                    string curr = hash2.getHash();
+
+                    // cout << hash1.getHash() << endl;
+                    // cout << hash2.getHash() << endl;
+
+                    for(int j = 0; j < 64; j++){
+                        if(prev[j] == curr[j])
+                            count++;
+                    }
+                }
+
+                double perc = count * 100 / 64;
+                percentages.push_back(perc);
+                // cout << perc << "%" << endl;
+            }
+
+            double min = percentages[0]; double max = percentages[0];
+            double avg = 0;
+            for(int i = 0 ; i < percentages.size(); i++){
+                avg += percentages.at(i);
+                if(percentages.at(i) > max) max = percentages.at(i);
+                if(percentages.at(i) < min) min = percentages.at(i);
+            }
+
+            cout << endl;
+            cout << "Didziausias sutapimas: " << std::fixed << setprecision(2) << max << "%" << endl;
+            cout << "Maziausias sutapimas: " << std::fixed << setprecision(2) << min << "%" << endl;
+            cout << "Vidutinis sutapimas: " << std::fixed << setprecision(2) << avg/percentages.size() << "%" << endl;
+
         }
 
         if(argument == "--kt"){     // konstitucija
@@ -108,6 +175,32 @@ void App::Generator(int l, int x1, int x2, string fName){
 
 }
 
+void App::GeneratorPair(int l, int x1, int x2, string fName){
+
+    string line;
+    ofstream fout(fName);
+    stringstream buffer;
+    string word1, word2;
+    for(int i = 0; i < x1; i++){
+        for(int j = 0; j < x2; j++){
+            word1 = Random(l);
+            word2 = word1;
+            for(int i = 0; i < 3; i++){
+                word2[i] = '5';
+            }
+            
+            buffer << word1 << " " << word2;
+            if(j + 1 != x2) buffer << " ";
+        }
+        if(i + 1 != x1) buffer << endl;
+    }
+    fout << buffer.str() << endl;
+    fout.close();
+
+}
+
+
+
 void App::Read(string fName, vector<string>& strings){
 
     string line;
@@ -163,5 +256,8 @@ void App::Collision(vector<string> &h){
 
 }
 
+void App::Avalanche(vector<string>& h){
+    
+}
 
 

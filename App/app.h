@@ -2,6 +2,7 @@
 #include <cstdlib>
 #include <algorithm>
 #include <unordered_map>
+#include <iomanip>
 #include "../Hash/hash.cpp"
 #include "../Time/time.cpp"
 
@@ -18,12 +19,16 @@ class App{
         char **argv;
         string argument;
 
-        // methods for testing
+        // working methods
         string Random(int l);
         void Generator(int l, int x1, int x2, string fName);
+        void GeneratorPair(int l, int x1, int x2, string fName);
         void Read(string fName, vector<string>& strings);
         void Write(vector<string> s);
+
+        // test methods
         void Collision(vector<string>& h);
+        void Avalanche(vector<string>& h);
 
     public: // 
         void Args(int argc, char **argv);

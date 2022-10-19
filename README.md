@@ -65,3 +65,17 @@ Atliktas kolizijos testas **Hash** algoritmui
 
 ### Avalanche test
 
+- Sugeneruotos 50000 stringu poru 15hex ilgio
+Didziausias sutapimas: 28.00%
+Maziausias sutapimas: 0.00%
+Vidutinis sutapimas: 7.99%
+
+### Results And Conclusions
+
+#### Strengths
+- Algoritmas yra atsparus kolizijai ir yra gaunamas geras avalanche efektas, daugiausiai 28%
+- Minimalus pasikeitimai užtikrina, jog gaunamas skirtingas hashas
+
+#### Weaknesses
+- Algoritmas užima daug laiko, skaitant, jog hashuojamas didelis kiekis input'u
+
