@@ -66,9 +66,13 @@ Atliktas kolizijos testas **Hash** algoritmui
 ### Avalanche test
 
 - Sugeneruotos 50000 stringu poru 15hex ilgio
-Didziausias sutapimas: 28.00%
-Maziausias sutapimas: 0.00%
-Vidutinis sutapimas: 7.99%
+
+|     Sutapimai   | Procentai  |
+|-----------------| -----------|
+| Didziausias     | 28.00%     |
+| Maziausias      | 0.00%      |
+| Vidutinis       | 7.99%      |
+
 
 ### Results And Conclusions
 
