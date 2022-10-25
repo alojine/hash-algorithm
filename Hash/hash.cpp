@@ -15,6 +15,8 @@
 #define HEX_LENGTH 64
 #define SINGLE_BITSET 16
 
+const std::string CHARACTERS = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
+
 Hash::Hash() { str_ = " "; }
 
 Hash::~Hash() { str_.clear(); }
@@ -53,24 +55,43 @@ string Hash::rightRotate(string str1, int n)
 
 const string &Hash::makeHash(string s)
 {
-    // 1. converting string to binary
+
+    // generating a unique seed value
+    int uniqueValue = 0;
+    for(size_t i = 0; i < s.length(); i++){
+        uniqueValue += (int)s[i];
+    }
+    unsigned seed = uniqueValue;
+    srand(seed);
+
+
+    //  1. generating a unique random string
+    string random_string;
+    for (std::size_t i = 0; i < s.size(); i++){
+        int random_index = rand() % CHARACTERS.length();
+        random_string += CHARACTERS[random_index];
+    }
+
+
+    // 2. converting string to binary
     string bitsOfString;
     bitset<8> b; bitset<8> e;
     int reverse = s.length();
 
-    for (std::size_t i = 0; i < s.size(); i++)
+    for (std::size_t i = 0; i < random_string.size(); i++)
     {
-        bitset<8> b(s.c_str()[i]);
-        bitsOfString += b.to_string();
 
+        bitset<8> b(s.c_str()[i]);
+        bitsOfString += b.flip(6).flip(3).to_string();
+        
         bitset<8> e(s.c_str()[reverse]);
-        bitsOfString += e.to_string();
+        bitsOfString += e.flip(2).flip(5).to_string();
 
         reverse--;
     }
+    
 
-
-    // 2. make binary 512
+    // 3. make binary 512
     int beforeLength = bitsOfString.length();
     size_t pos = 0; size_t npos = BIT_LENGTH;
     if (bitsOfString.length() < BIT_LENGTH){
@@ -81,33 +102,32 @@ const string &Hash::makeHash(string s)
     }
 
 
-    // 3. mixing bit values
+    // 4. mixing bits with seed
+    for(int i = 0; i < 512; ++i) {
+        int random_index = rand() % 512;
+        bitsOfString[i] = bitsOfString[i] + bitsOfString[random_index] - (bitsOfString[random_index] = bitsOfString[i]); // we just swap two letters each time
+    }
+
+
+    // 5. mixing bit values
     bitset<16> f; bitset<16> r; bitset<16> connector;
     string cnv;
     int r_back = bitsOfString.length() - 16;
 
     for (size_t i = 0; i < bitsOfString.length(); i += 16){
-        f = ((bitset<16>)rightRotate(bitsOfString.substr(i, SINGLE_BITSET), 13) & (bitset<16>)rightRotate(bitsOfString.substr(i, SINGLE_BITSET), 4) ^ (bitset<16>)rightRotate(bitsOfString.substr(i, SINGLE_BITSET), 9));
-        r = (bitset<16>)rightRotate(bitsOfString.substr(r_back, SINGLE_BITSET), 9) & (bitset<16>)leftRotate(bitsOfString.substr(r_back, SINGLE_BITSET), 4) ^ (bitset<16>)rightRotate(bitsOfString.substr(r_back, SINGLE_BITSET), 13);
+        f = ((bitset<16>)rightRotate(bitsOfString.substr(i, SINGLE_BITSET), 13) ^ (bitset<16>)rightRotate(bitsOfString.substr(i, SINGLE_BITSET), 4) ^ (bitset<16>)rightRotate(bitsOfString.substr(i, SINGLE_BITSET), 9));
+        r = (bitset<16>)rightRotate(bitsOfString.substr(r_back, SINGLE_BITSET), 9) ^ (bitset<16>)leftRotate(bitsOfString.substr(r_back, SINGLE_BITSET), 4) ^ (bitset<16>)rightRotate(bitsOfString.substr(r_back, SINGLE_BITSET), 13);
+        // r = ((bitset<16>)rightRotate(bitsOfString.substr(i, SINGLE_BITSET), 2) ^ (bitset<16>)rightRotate(bitsOfString.substr(i, SINGLE_BITSET), 7) ^ (bitset<16>)rightRotate(bitsOfString.substr(i, SINGLE_BITSET), 13));
         connector = (bitset<16>)f.flip(5).flip(9).flip(13).to_string() ^ (bitset<16>)r.flip(13).flip(9).flip(5);
 
         r_back -= 8;
 
-        cnv += leftRotate(connector.flip(5).flip(9).flip(13).to_string(), 6);
+        cnv += leftRotate(rightRotate(connector.flip(5).flip(9).flip(13).to_string(), 6), 8);
     }
 
 
-    // 4. mixing final string
-    int uniqueValue = 0;
-    for(size_t i = 0; i < s.length(); i++){
-        uniqueValue += (int)s[i];
-    }
-
-    unsigned seed = uniqueValue;
-    srand(seed);
-
-    int strLength = cnv.length();
-    int len = strLength - 1;
+    // 6. mixing bits final string with seed
+    int len = cnv.length(); - 1;
 
     for(int i = 0; i < len; ++i) {
         int random_index = rand() % len;
@@ -115,7 +135,7 @@ const string &Hash::makeHash(string s)
     }
 
 
-    // 5. converting binary to hex
+    // 7. converting binary to hex
     cnv = binToHex(cnv);
     for(size_t i = 0; i < 63; i++){
        str_ += cnv.at(i);
@@ -172,7 +192,6 @@ string Hash::binToHex(string s)
             hexOfString += "f";
 
         temp = "";
-
     }
 
     return hexOfString;
