@@ -75,6 +75,15 @@ void App::run()
 
         }
 
+        if(argument == "--fw"){
+            string zodis;
+            cout << "Give input: " << endl;
+            cin >> zodis;
+            Hash h;
+            h.makeHash(zodis);
+            cout << h.getHash() << endl;
+        }   
+
     }
 }
 
