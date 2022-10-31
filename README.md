@@ -1,5 +1,4 @@
-# blockchain
-repository for blockchain projects
+# Hash-algorithm for custom blockchain
 
 ## Pseudocode
 ```
@@ -44,11 +43,41 @@ function Hash{
 | lietuve       | 81200053648100580342902c080022204221211c85891020b00100e0a252249 |
 | lietuva!      | 02000199c0201180640010430c84004320518000884022194ca040604800951 |
 
-- Hash algoritmas visada yra *64 simboliu hex* ilgio kodas
-- Hash algoritmas visada yra *deterministinis*
+- Hash algoritmas visada yra **64 simboliu hex** ilgio kodas
+- Hash algoritmas visada yra **deterministinis**
 
-### Hash algoritmo greitis
+### Hash algorithm speed
 
 ![alt text](https://github.com/alojine/blockchain/blob/master/Hash%20speed.png)
 
-###
+### Collision test
+
+Atliktas kolizijos testas **Hash** algoritmui
+- Sugeneruojami 4 failai po 25000 eilučių, kuriuose yra dvi poros kuriu ilgiai: *10* / *100* / *500* / *1000*
+
+|     Input       | Hash time  |  Collision | 
+|-----------------| -----------| -----------|
+| poros10.txt     | 10.0739 s  | 0          |
+| poros100.txt    | 13.3767 s  | 0          |
+| poros500.txt    | 26.0261 s  | 0          |
+| poros1000.txt   | 41.8003 s  | 0          |
+
+### Avalanche test
+
+- Sugeneruotos 50000 stringu poru 15hex ilgio
+
+|     Sutapimai   | Procentai  |
+|-----------------| -----------|
+| Didziausias     | 28.00%     |
+| Maziausias      | 0.00%      |
+| Vidutinis       | 7.99%      |
+
+
+### Results And Conclusions
+
+#### Strengths
+- Algoritmas yra atsparus kolizijai ir yra gaunamas geras avalanche efektas, daugiausiai 28%
+- Minimalus pasikeitimai užtikrina, jog gaunamas skirtingas hashas
+
+#### Weaknesses
+- Algoritmas užima daug laiko, skaitant, jog hashuojamas didelis kiekis input'u
