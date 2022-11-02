@@ -48,7 +48,7 @@ function Hash{
 
 ### Hash algorithm speed
 
-![alt text](https://github.com/alojine/blockchain/blob/master/Hash%20speed.png)
+![alt text](https://github.com/alojine/hash-algorithm/blob/master/Hash%20speed.png)
 
 ### Collision test
 
