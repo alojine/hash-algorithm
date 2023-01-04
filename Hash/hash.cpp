@@ -26,7 +26,7 @@ void Hash::setHash(string s)
     str_ = s;
 }
 
-const string &Hash::getHash() const { return str_; }
+const string& Hash::getHash() const { return str_; }
 
 int Hash::rightRotate(int n, int d)
 {
@@ -53,12 +53,12 @@ string Hash::rightRotate(string str1, int n)
     return leftRotate(str1, str1.size() - n);
 }
 
-const string &Hash::makeHash(string s)
+const string& Hash::makeHash(string s)
 {
 
     // generating a unique seed value
     int uniqueValue = 0;
-    for(size_t i = 0; i < s.length(); i++){
+    for (size_t i = 0; i < s.length(); i++) {
         uniqueValue += (int)s[i];
     }
     unsigned seed = uniqueValue;
@@ -67,11 +67,39 @@ const string &Hash::makeHash(string s)
 
     //  1. generating a unique random string
     string random_string;
-    for (std::size_t i = 0; i < s.size(); i++){
-        int random_index = rand() % CHARACTERS.length();
-        random_string += CHARACTERS[random_index];
-    }
+    string random_chars;
+    string rotated;
+    char ch;
+    for (std::size_t i = 0; i < s.size(); i++) {
 
+        // random index
+        int random_index = rand() % CHARACTERS.length();
+
+        // random rotated index
+        int rotated_index = rightRotate(random_index, random_index - 1);
+        random_string += random_index + rotated_index + i;
+        
+        // adding random index char
+        if (random_index > CHARACTERS.length()) {
+            int times = random_index / CHARACTERS.length();
+            random_index = random_index - (CHARACTERS.length() * times);
+
+            random_string += CHARACTERS[random_index];
+        }
+        else {
+            random_string += CHARACTERS[random_index];
+        }
+
+        if (rotated_index > CHARACTERS.length()) {
+            int times = rotated_index / CHARACTERS.length();
+            rotated_index = rotated_index - (CHARACTERS.length() * times);
+
+            random_string += CHARACTERS[rotated_index];
+        }
+        else {
+            random_string += CHARACTERS[rotated_index];
+        }
+    }
 
     // 2. converting string to binary
     string bitsOfString;
@@ -80,30 +108,28 @@ const string &Hash::makeHash(string s)
 
     for (std::size_t i = 0; i < random_string.size(); i++)
     {
-
-        bitset<8> b(s.c_str()[i]);
+        bitset<8> b(random_string.c_str()[i]);
         bitsOfString += b.flip(6).flip(3).to_string();
-        
-        bitset<8> e(s.c_str()[reverse]);
+
+        bitset<8> e(random_string.c_str()[reverse]);
         bitsOfString += e.flip(2).flip(5).to_string();
 
         reverse--;
     }
-    
 
     // 3. make binary 512
     int beforeLength = bitsOfString.length();
     size_t pos = 0; size_t npos = BIT_LENGTH;
-    if (bitsOfString.length() < BIT_LENGTH){
-        bitsOfString += "1" + string(BIT_LENGTH - (bitsOfString.length() + 1), '0');
+    if (bitsOfString.length() < BIT_LENGTH) {
+        bitsOfString += "1" + string(BIT_LENGTH - (bitsOfString.length() + 1), '011');
     }
-    else if(bitsOfString.length() > BIT_LENGTH){
+    else if (bitsOfString.length() > BIT_LENGTH) {
         bitsOfString = bitsOfString.substr(0, BIT_LENGTH);
     }
 
 
     // 4. mixing bits with seed
-    for(int i = 0; i < 512; ++i) {
+    for (int i = 0; i < 512; ++i) {
         int random_index = rand() % 512;
         bitsOfString[i] = bitsOfString[i] + bitsOfString[random_index] - (bitsOfString[random_index] = bitsOfString[i]); // we just swap two letters each time
     }
@@ -114,7 +140,7 @@ const string &Hash::makeHash(string s)
     string cnv;
     int r_back = bitsOfString.length() - 16;
 
-    for (size_t i = 0; i < bitsOfString.length(); i += 16){
+    for (size_t i = 0; i < bitsOfString.length(); i += 16) {
         f = ((bitset<16>)rightRotate(bitsOfString.substr(i, SINGLE_BITSET), 13) ^ (bitset<16>)rightRotate(bitsOfString.substr(i, SINGLE_BITSET), 4) ^ (bitset<16>)rightRotate(bitsOfString.substr(i, SINGLE_BITSET), 9));
         r = (bitset<16>)rightRotate(bitsOfString.substr(r_back, SINGLE_BITSET), 9) ^ (bitset<16>)leftRotate(bitsOfString.substr(r_back, SINGLE_BITSET), 4) ^ (bitset<16>)rightRotate(bitsOfString.substr(r_back, SINGLE_BITSET), 13);
         // r = ((bitset<16>)rightRotate(bitsOfString.substr(i, SINGLE_BITSET), 2) ^ (bitset<16>)rightRotate(bitsOfString.substr(i, SINGLE_BITSET), 7) ^ (bitset<16>)rightRotate(bitsOfString.substr(i, SINGLE_BITSET), 13));
@@ -127,9 +153,9 @@ const string &Hash::makeHash(string s)
 
 
     // 6. mixing bits final string with seed
-    int len = cnv.length(); - 1;
+    int len = cnv.length(); -1;
 
-    for(int i = 0; i < len; ++i) {
+    for (int i = 0; i < len; ++i) {
         int random_index = rand() % len;
         cnv[i] = cnv[i] + cnv[random_index] - (cnv[random_index] = cnv[i]); // we just swap two letters each time
     }
@@ -137,10 +163,11 @@ const string &Hash::makeHash(string s)
 
     // 7. converting binary to hex
     cnv = binToHex(cnv);
-    for(size_t i = 0; i < 63; i++){
-       str_ += cnv.at(i);
+    for (size_t i = 0; i < 63; i++) {
+        str_ += cnv.at(i);
     }
 
+    return this->str_;
 };
 
 string Hash::binToHex(string s)
