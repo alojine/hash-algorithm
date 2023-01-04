@@ -16,9 +16,9 @@ function Hash{
   }
   
   string binary
-  for(from 0 to givenString.size):
-    char front = givenString[from0]
-    char back = givenString[fromSize]
+  for(from 0 to newGeneratedString.size):
+    char front = newGeneratedString[from0]
+    char back = newGeneratedString[fromSize]
     binary += bits<8>(front) + bits<8>(back)
    
    if(binary < 512):
