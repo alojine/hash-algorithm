@@ -5,6 +5,16 @@
 function Hash{
 
   string givenString
+  
+  CHARACTERS = [1-9 + A-Z + a-z]
+  string newGeneratedString
+  
+  for(from 0 to givenString){
+    random_index = random(seed) % CHARACTERS.length()
+    random_rotated_index = rotate(random_index by random_index - 1)
+    newGeneratedString += random_index + random_rotated_index + CHARACTERS[random_index] + CHARACTERS[random_rotated_index]
+  }
+  
   string binary
   for(from 0 to givenString.size):
     char front = givenString[from0]
